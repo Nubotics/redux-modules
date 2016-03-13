@@ -1,0 +1,22 @@
+{
+  "name": "reduxify",
+  "version": "0.0.1",
+  "description": "A small library for defining Redux reducers with increased clarity and reduced boilerplate.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "redux",
+    "reducer",
+    "react"
+  ],
+  "author": "Marcus Bernales",
+  "license": "ISC",
+  "dependencies": {
+    "camelcase": "^2.1.1",
+    "immutable": "^3.7.6",
+    "ramda": "^0.19.1",
+    "redux-actions": "^0.9.1"
+  }
+}
