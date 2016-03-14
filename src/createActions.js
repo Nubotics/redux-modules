@@ -16,10 +16,11 @@ const _generateActions = (generatedActions, transformation) => {
   );
 
   return generatedActions;
-},
+};
 
-export const createActions = transformations =>
-  reduce(_generateActions, {}, transformations);
+export const createActions = transformations => {
+  return reduce(_generateActions, {}, transformations);
+};
 
 
 export default createActions;

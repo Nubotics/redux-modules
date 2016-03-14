@@ -1,6 +1,8 @@
-const _formatConstant = (modulePrefix, actionName) =>
-  `${modulePrefix}/${actionName}`;
+import { curry } from 'ramda';
 
+const _formatConstant = (modulePrefix, actionName) => {
+  return `${modulePrefix}/${actionName}`;
+};
 
 const _appendFormattedConstant = curry(
   (modulePrefix, transform) => {
@@ -12,8 +14,9 @@ const _appendFormattedConstant = curry(
 );
 
 export const formatConstants = curry(
-  (modulePrefix, transformations) =>
-    transformations.map(_appendFormattedConstant(modulePrefix))
+  (modulePrefix, transformations) => {
+    return transformations.map(_appendFormattedConstant(modulePrefix))
+  }
 );
 
 export default formatConstants;
