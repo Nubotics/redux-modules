@@ -45,7 +45,11 @@ export default reduxify(
     {
       action: 'ADD_TODO_ITEM',
       payloadTypes: {
-        'todo': PropTypes.object.isRequired,
+        'todo': PropTypes.shapeOf({
+          id: PropTypes.number.isRequired,
+          name: PropTypes.string,
+          completed: PropTypes.bool,
+        }).isRequired,
       },
       reducer: (state, {todo}) => state.set(todo.id, todo),
     },
