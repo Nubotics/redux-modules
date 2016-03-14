@@ -1,10 +1,7 @@
 import { compose } from 'ramda';
 import createActions from './createActions';
 import createReducer from './createReducer';
-
-const formatConstant = (duckName, actionName) => {
-  return `${duckName}/${actionName}`;
-};
+import formatConstants from './formatConstants';
 
 const reduxify = transformations => {
   return {
@@ -13,19 +10,8 @@ const reduxify = transformations => {
   };
 };
 
-const formatConstants = curry(
-  (modulePrefix, transformations) =>
-  transformations.map(transform => {
-    return {
-      ... transform,
-      formattedConstant: formatConstant(modulePrefix, transform.action),
-    };
-  })
-);
-
-export default (modulePrefix, transformations) => {
-  return compose(
+export default (modulePrefix, transformations) =>
+  compose(
     reduxify,
     formatConstants(modulePrefix)
   )(transformations);
-};

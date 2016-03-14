@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions';
 import { reduce } from 'ramda';
-import payloadTypechecker from './payloadTypechecker';
+import payloadPropchecker from './payloadPropchecker';
 
 const _generateActions = (generatedActions, transformation) => {
   const {
@@ -12,8 +12,9 @@ const _generateActions = (generatedActions, transformation) => {
 
   generatedActions[camelizedActionName] = createAction(
     formattedConstant,
-    payloadTypechecker(formattedConstant, payloadTypes)
+    payloadPropchecker(formattedConstant, payloadTypes)
   );
+
   return generatedActions;
 },
 
