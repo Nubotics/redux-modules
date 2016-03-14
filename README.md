@@ -1,5 +1,5 @@
 # Reduxify
-A library for defining clear, boilerplate free Redux reducers with propType checked actions.
+A library for defining clear, boilerplate free Redux reducers with typechecked action payloads.
 
 ## Advantages
 - Proptype checking for your action payloads.
@@ -15,7 +15,7 @@ const {actions, reducer} = reduxify(actionPrefix, transformations);
 - **actionPrefix**: Prefix for action type
 - **transformations**: Array of `transformation` objects.
 
-## Transformation Object
+### Transformation Object
 ```js
 {
   action: 'ADD_TODO_ITEM',
@@ -29,7 +29,7 @@ const {actions, reducer} = reduxify(actionPrefix, transformations);
   reducer: (state, {todo}) => state.set(todo.id, todo),
 },
 ```
-### Attributes:
+##### Attributes:
 - **action**: Action constant
 - **payloadTypes**: Like React PropTypes, but for your action payload.
 - **reducer**: State transformation that corresponds to the action
