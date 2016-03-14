@@ -39,39 +39,33 @@ const {actions, reducer} = reduxify(actionPrefix, transformations);
 import {PropTypes} from 'react';
 import reduxify from 'reduxify';
 
-const transformations = [
-  {
-    action: 'ADD_TODO_ITEM',
-    payloadTypes: {
-      'todo': PropTypes.object.isRequired,
+export default reduxify(
+  'todos',
+  [
+    {
+      action: 'ADD_TODO_ITEM',
+      payloadTypes: {
+        'todo': PropTypes.object.isRequired,
+      },
+      reducer: (state, {todo}) => state.set(todo.id, todo),
     },
-    reducer: (state, {todo}) => state.set(todo.id, todo),
-  },
-
-  {
-    action: 'REMOVE_TODO_ITEM',
-    payloadTypes: {
-      'id': PropTypes.number.isRequired,
+    {
+      action: 'REMOVE_TODO_ITEM',
+      payloadTypes: {
+        'id': PropTypes.number.isRequired,
+      },
+      reducer: (state, {id}) => state.remove(id),
     },
-    reducer: (state, {id}) => state.remove(id),
-  },
-
-  {
-    action: 'COMPLETE_TODO_ITEM',
-    payloadTypes: {
-      'id': PropTypes.number.isRequired,
+    {
+      action: 'COMPLETE_TODO_ITEM',
+      payloadTypes: {
+        'id': PropTypes.number.isRequired,
+      },
+      reducer: (state, {id}) =>
+        state.update(id, todo => todo.set('complete', true)),
     },
-    reducer: (state, {id}) =>
-      state.update(id, todo => todo.set('complete', true)),
-  },
-];
-
-const {reducer, actions} = reduxify('todos', transformations);
-
-export {
-  reducer as default,
-  actions,
-};
+  ]
+);
 ```
 
 Equivalent reducer with module/duck paradigm:
@@ -96,7 +90,6 @@ export const reducer = handleActions(
   Map()
 );
 
-export default reducer;
 export const actions = {
   addTodoItem,
   removeTodoItem,
