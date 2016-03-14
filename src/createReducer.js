@@ -9,11 +9,11 @@ const _generateReducer = (generatedReducer, transformation) => {
   return generatedReducer;
 };
 
-export const createReducer = transformations => {
-  return compose(
+export const createReducer = transformations =>
+  compose(
     handleActions,
     reduce(_generateReducer, Map())
   )(transformations);
-};
+
 
 export default createReducer;

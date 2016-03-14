@@ -1,19 +1,24 @@
-import { curry } from 'ramda';
+import { curry, keys, forEach } from 'ramda';
+
+const defaultPropCheck = () => { return {}; };
+
+const _propCheck = type => {
+  const propChecker = payloadTypes[type] || defaultPropCheck;
+  const typeError = propChecker(payload, type, name, 'prop');
+
+  const { message } = typeError;
+  message && console.error(
+    'REDUXIFY: Action Payload Type Mismatch!',
+    message
+  );
+}
 
 export const typecheckedPayloadCreator = curry(
   (name, payloadTypes, payload) => {
-    const payloadKeys = Object.keys(payloadTypes);
-
-    payloadKeys.forEach(type => {
-      const typeChecker = payloadTypes[type];
-      if (!typeChecker) { return; }
-
-      const typeError = typeChecker(payload, type, name, 'prop');
-      if (!typeError) { return; }
-
-      const { message } = typeError;
-      message && console.error('Action Type Error', message);
-    });
+    compose(
+      forEach(_propCheck)
+      keys
+    )(payloadTypes);
 
     return payload;
   }

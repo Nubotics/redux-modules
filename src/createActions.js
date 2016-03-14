@@ -1,4 +1,5 @@
 import { createAction } from 'redux-actions';
+import { reduce } from 'ramda';
 import payloadTypechecker from './payloadTypechecker';
 
 const _generateActions = (generatedActions, transformation) => {
@@ -16,8 +17,8 @@ const _generateActions = (generatedActions, transformation) => {
   return generatedActions;
 },
 
-export const createActions = (transformations) => {
-  return transformations.reduce(_generateActions, {});
-};
+export const createActions = transformations =>
+  reduce(_generateActions, {}, transformations);
+
 
 export default createActions;
