@@ -1,8 +1,8 @@
 {
   "name": "reduxify",
   "version": "0.0.1",
-  "description": "A small library for defining Redux reducers with increased clarity and reduced boilerplate.",
-  "main": "index.js",
+  "description": "A library for defining clear, boilerplate free Redux reducers.",
+  "main": "src/index.js",
   "scripts": {
     "test": "test"
   },
