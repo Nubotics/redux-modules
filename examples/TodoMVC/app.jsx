@@ -15,8 +15,9 @@ export const mapState = state => {
 export const mapDispatch = dispatch => {
   return {
     createTodo: todo => dispatch(actions.createTodo({todo})),
-    destroyTodo: index => dispatch(actions.destroyTodo({id})),
-    updateTodo: todo => dispatch(actions.updateTodo({todo})),
+    destroyTodo: index => dispatch(actions.destroyTodo({index})),
+    updateTodo: (index, todo) =>
+      dispatch(actions.updateTodo({index, todo})),
   };
 }
 
