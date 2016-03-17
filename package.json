@@ -9,7 +9,10 @@
   "keywords": [
     "redux",
     "reducer",
-    "react"
+    "react",
+    "modules",
+    "ducks",
+    "store",
   ],
   "author": "Marcus Bernales",
   "license": "ISC",
