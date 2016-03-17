@@ -1,4 +1,4 @@
-# Reduxify
+# redux-modules
 A library for defining clear, boilerplate free Redux reducers with typechecked action payloads. Based on the [redux duck](https://github.com/erikras/ducks-modular-redux) paradigm proposed by [erikras](https://github.com/erikras/).
 
 ## Advantages
@@ -37,9 +37,9 @@ const {actions, reducer} = reduxify(actionPrefix, transformations);
 ## Example
 ```js
 import {PropTypes} from 'react';
-import reduxify from 'reduxify';
+import {createModule} from 'redux-modules';
 
-export default reduxify(
+export default createModule(
   'todos',
   [
     {
@@ -51,21 +51,21 @@ export default reduxify(
           completed: PropTypes.bool,
         }).isRequired,
       },
-      reducer: (state, {todo}) => state.set(todo.id, todo),
+      reducer: (state, {payload: {todo}}) => state.set(todo.id, todo),
     },
     {
       action: 'REMOVE_TODO_ITEM',
       payloadTypes: {
         'id': PropTypes.number.isRequired,
       },
-      reducer: (state, {id}) => state.remove(id),
+      reducer: (state, {payload: {id}}) => state.remove(id),
     },
     {
       action: 'COMPLETE_TODO_ITEM',
       payloadTypes: {
         'id': PropTypes.number.isRequired,
       },
-      reducer: (state, {id}) =>
+      reducer: (state, {payload: {id}}) =>
         state.update(id, todo => todo.set('complete', true)),
     },
   ]
@@ -87,9 +87,9 @@ const completeTodoItem = createAction(COMPLETE_TODO_ITEM);
 
 export const reducer = handleActions(
   {
-    [ADD_TODO_ITEM]: (state, {todo}) => state.set(todo.id, todo),
-    [REMOVE_TODO_ITEM]: (state, {id}) => state.remove(id),
-    [COMPLETE_TODO_ITEM]: (state, {id}) => state.update(id, todo => todo.set('complete', true)),
+    [ADD_TODO_ITEM]: (state, {payload: {todo}}) => state.set(todo.id, todo),
+    [REMOVE_TODO_ITEM]: (state, {payload: {id}}) => state.remove(id),
+    [COMPLETE_TODO_ITEM]: (state, {payload: {id}}) => state.update(id, todo => todo.set('complete', true)),
   },
   Map()
 );
