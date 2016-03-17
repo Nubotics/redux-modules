@@ -9,7 +9,7 @@ A library for defining clear, boilerplate free Redux reducers with typechecked a
 
 ## Usage
 ```js
-const {actions, reducer} = reduxify(actionPrefix, transformations);
+const {actions, reducer} = createModule(actionPrefix, transformations);
 ```
 ### Arguments:
 - **actionPrefix**: Prefix for action type
