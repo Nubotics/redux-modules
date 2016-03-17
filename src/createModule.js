@@ -6,15 +6,13 @@ import formatConstants from './formatConstants';
 const _generateReduxComponents = transformations => {
   return {
     actions: createActions(transformations),
-    reducer: createReducer(transformations),
+    reducer: createReducer(store, transformations),
   };
 };
 
-const reduxify = (modulePrefix, transformations) => {
+export const createModule = (modulePrefix, transformations) => {
   return compose(
     _generateReduxComponents,
     formatConstants(modulePrefix)
   )(transformations);
 };
-
-export default reduxify;

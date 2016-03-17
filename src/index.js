@@ -1,1 +1,1 @@
-export reduxify from './reduxify';
+export createModule from './createModule';

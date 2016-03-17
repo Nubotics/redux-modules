@@ -1,5 +1,5 @@
 {
-  "name": "reduxify",
+  "name": "redux-modules",
   "version": "0.0.1",
   "description": "A library for defining clear, boilerplate free Redux reducers.",
   "main": "src/index.js",
