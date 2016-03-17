@@ -1,12 +1,13 @@
 // TodoList View
-const TodoItem = (actions, {id, title, description, complete}, i) =>
+const TodoItem = (actions, {id, title, description, checked}, i) =>
   <li>
     <div className="checkbox">
       <input
         onChange={e =>
-          actions.updateTodo(i, {status: e.target.checked})
+          actions.updateTodo(i, {checked: e.target.checked})
         }
         type='checkbox'
+        value={checked}
       />
     </div>
     <p>
@@ -37,6 +38,6 @@ export default const TodoList = ({items, ... actions}) =>
     </div>
 
     <ul>
-      {items.toJS().map(TodoItem(actions))}
+      {items.toJS().map(TodoItem.bind(null, actions))}
     </ul>
   </div>
