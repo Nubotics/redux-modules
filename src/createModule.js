@@ -6,7 +6,7 @@ import formatConstants from './formatConstants';
 const _generateReduxComponents = transformations => {
   return {
     actions: createActions(transformations),
-    reducer: createReducer(store, transformations),
+    reducer: createReducer(transformations),
   };
 };
 
