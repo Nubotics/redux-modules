@@ -1,1 +1,2 @@
-export createModule from './createModule';
+import {createModule} from './createModule';
+export default createModule;

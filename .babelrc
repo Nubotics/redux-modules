@@ -1,6 +1,6 @@
 {
   "presets": [
-    "transform-react-jsx",
+    "react",
     "es2015",
     "stage-0"
   ]

@@ -1,4 +1,4 @@
-import { curry, keys, forEach } from 'ramda';
+import { curry, keys, forEach, compose } from 'ramda';
 
 const defaultPropCheck = () => { return {}; };
 
@@ -16,7 +16,7 @@ const _propCheck = type => {
 export const propCheckedPayloadCreator = curry(
   (name, payloadTypes, payload) => {
     compose(
-      forEach(_propCheck)
+      forEach(_propCheck),
       keys
     )(payloadTypes);
 

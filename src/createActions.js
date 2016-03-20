@@ -1,5 +1,6 @@
 import { createAction } from 'redux-actions';
 import { reduce } from 'ramda';
+import camelize from 'camel-case';
 import payloadPropchecker from './payloadPropchecker';
 
 const _generateActions = (generatedActions, transformation) => {

@@ -9,11 +9,9 @@ const _generateReducer = (generatedReducer, transformation) => {
   return generatedReducer;
 };
 
-export const createReducer = transformations => {
-  return compose(
-    handleActions,
-    reduce(_generateReducer, Map())
-  )(transformations);
+export const createReducer = (initialState = Map(), transformations) => {
+  const reducer = transformations.reduce(_generateReducer, {});
+  return handleActions(reducer, initialState)
 };
 
 export default createReducer;

@@ -1,18 +1,16 @@
 import webpack from 'webpack';
-import baseConfig from './webpack.base.config';
-import getCurrentBranch from '../../utils/getCurrentBranch';
+import baseConfig from './webpack.base';
 
-require('dotenv').load();
-
-const { HOST, PORT } = process.env;
+const HOST = 'localhost';
+const PORT = '8080';
 
 const devConfig = baseConfig.mergeDeep({
 
   entry: {
-    bundle: [
+    example: [
       `webpack-dev-server/client?http://${HOST}:${PORT}`,
       'webpack/hot/dev-server',
-      './bundle',
+      './TodoMVC/app',
     ],
   },
 
@@ -27,7 +25,7 @@ const devConfig = baseConfig.mergeDeep({
     loaders: [
       {
         test: [/\.js$/, /\.jsx$/],
-        loaders: ['babel?stage=0'],
+        loaders: ['babel'],
         exclude: /node_modules/,
       },
       {
@@ -44,12 +42,6 @@ const devConfig = baseConfig.mergeDeep({
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': JSON.stringify({
-        ...process.env,
-        CIRCLE_BRANCH: getCurrentBranch(),
-      }),
-    }),
   ],
 
   debug: true,

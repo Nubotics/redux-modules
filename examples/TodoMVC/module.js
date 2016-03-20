@@ -1,7 +1,7 @@
-import { createModule } from 'redux-modules';
-import { fromJS } from 'immutable';
+import createModule from '../../src/index';
+import { fromJS, List } from 'immutable';
 
-export const module = createModule(
+module.exports = createModule(
   'todos',
   [
     {
@@ -19,9 +19,9 @@ export const module = createModule(
     {
       action: 'UPDATE_TODO',
       reducer: (state, {payload: { index, todo }}) => {
-        return state.replace(index, todo);
+        return state.update(index, () => todo);
       },
     },
   ],
+  List()
 );
-

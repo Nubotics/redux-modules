@@ -1,3 +1,6 @@
+import React from 'react';
+import { findDOMNode } from 'react-dom';
+import { List } from 'immutable';
 // TodoList View
 const TodoItem = (actions, {id, title, description, checked}, i) =>
   <li>
@@ -20,24 +23,34 @@ const TodoItem = (actions, {id, title, description, checked}, i) =>
     </aside>
   </li>
 
-export default const TodoList = ({items, ... actions}) =>
-  <div>
-    <h1>Todo!</h1>
+export default class TodoList extends React.Component {
+  render() {
+    const { todos = List(), ... actions } = this.props;
+    return (
+      <div>
+        <h1>Todo!</h1>
 
-    <div>
-      <input ref='name'/>
-      <input ref='description'/>
+        <div>
+          <label>Todo</label>
+          <input ref='name'/>
+          <label>Description</label>
+          <input ref='description'/>
 
-      <button onClick={e => {
-        actions.createTodo({
-          name: findDOMNode(this.refs.name).value,
-          descripton: findDOMNode(this.refs.descripton).value,
-        });
-      }}>
-      </button>
-    </div>
+          <input type='button' onClick={() => {
+            actions.createTodo({
+              name: findDOMNode(this.refs.name).value,
+              description: findDOMNode(this.refs.description).value,
+            })
+          }}>
+            Create Todo!
+          </input>
+        </div>
 
-    <ul>
-      {items.toJS().map(TodoItem.bind(null, actions))}
-    </ul>
-  </div>
+        <ul>
+          {todos.map(TodoItem.bind(null, actions))}
+        </ul>
+      </div>
+    );
+  }
+}
+
