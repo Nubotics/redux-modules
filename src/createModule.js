@@ -9,7 +9,7 @@ const _generateReduxComponents = initialState => transformations => {
     actions: createActions(transformations),
     reducer: createReducer(initialState, transformations),
   };
-  debugger;
+
   return generated;
 };
 

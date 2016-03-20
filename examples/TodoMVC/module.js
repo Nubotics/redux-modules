@@ -18,8 +18,11 @@ module.exports = createModule(
     },
     {
       action: 'UPDATE_TODO',
-      reducer: (state, {payload: { index, todo }}) => {
-        return state.update(index, () => todo);
+      reducer: (state, {payload: { index, todo: updates }}) => {
+        return state.update(
+          index,
+          todo => todo.merge(fromJS(updates))
+        );
       },
     },
   ],

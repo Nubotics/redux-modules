@@ -1,6 +1,9 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { List } from 'immutable';
+import { actions } from './module';
+import { connect } from 'react-redux';
+
 // TodoList View
 const TodoItem = (actions, {id, title, description, checked}, i) =>
   <li>
@@ -23,27 +26,26 @@ const TodoItem = (actions, {id, title, description, checked}, i) =>
     </aside>
   </li>
 
-export default class TodoList extends React.Component {
+class TodoList extends React.Component {
   render() {
-    const { todos = List(), ... actions } = this.props;
+    const { todos = [], ... actions } = this.props;
     return (
       <div>
         <h1>Todo!</h1>
 
         <div>
-          <label>Todo</label>
-          <input ref='name'/>
           <label>Description</label>
           <input ref='description'/>
 
-          <input type='button' onClick={() => {
-            actions.createTodo({
-              name: findDOMNode(this.refs.name).value,
-              description: findDOMNode(this.refs.description).value,
-            })
-          }}>
-            Create Todo!
-          </input>
+          <input
+            type='button'
+            value='Create'
+            onClick={() => {
+              actions.createTodo({
+                description: findDOMNode(this.refs.description).value,
+              })
+            }}
+          />
         </div>
 
         <ul>
@@ -54,3 +56,19 @@ export default class TodoList extends React.Component {
   }
 }
 
+const mapState = state => {
+  return {
+    todos: [... state.toJS()],
+  }
+};
+
+const mapDispatch = dispatch => {
+  return {
+    createTodo: todo => dispatch(actions.createTodo({todo})),
+    destroyTodo: index => dispatch(actions.destroyTodo({index})),
+    updateTodo: (index, todo) =>
+      dispatch(actions.updateTodo({index, todo})),
+  };
+}
+
+export default connect(mapState, mapDispatch)(TodoList);
