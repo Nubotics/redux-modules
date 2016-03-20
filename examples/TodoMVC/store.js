@@ -2,7 +2,8 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { List, fromJS } from 'immutable';
 import createLogger from 'redux-logger';
 
-import { reducer } from './module';
+import todoModule from './module';
+const { reducer } = todoModule;
 
 let logger = createLogger({
   stateTransformer: object => fromJS(object).toJS(),

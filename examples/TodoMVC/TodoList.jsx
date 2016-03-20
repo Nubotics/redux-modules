@@ -1,8 +1,10 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { List } from 'immutable';
-import { actions } from './module';
 import { connect } from 'react-redux';
+
+import todoModule from './module';
+const { actions } = todoModule;
 
 // TodoList View
 const TodoItem = (actions, {id, title, description, checked}, i) =>
@@ -27,6 +29,10 @@ const TodoItem = (actions, {id, title, description, checked}, i) =>
   </li>
 
 class TodoList extends React.Component {
+  static propTypes = {
+    todos: React.PropTypes.array.isRequired,
+  };
+
   render() {
     const { todos = [], ... actions } = this.props;
     return (

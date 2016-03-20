@@ -9,11 +9,12 @@ A library for defining clear, boilerplate free Redux reducers with typechecked a
 
 ## Usage
 ```js
-const {actions, reducer} = createModule(actionPrefix, transformations);
+const {actions, reducer} = createModule(actionPrefix, transformations, initialState);
 ```
 ### Arguments:
 - **actionPrefix**: Prefix for action type
 - **transformations**: Array of `transformation` objects.
+- **initialState**: Initial store state. Defaults to immutable Map if undefined
 
 ### Transformation Object
 ```js
@@ -45,7 +46,7 @@ export default createModule(
     {
       action: 'ADD_TODO_ITEM',
       payloadTypes: {
-        'todo': PropTypes.shapeOf({
+        'todo': PropTypes.shape({
           id: PropTypes.number.isRequired,
           name: PropTypes.string,
           completed: PropTypes.bool,
