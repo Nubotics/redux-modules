@@ -39,9 +39,10 @@ import {PropTypes} from 'react';
 import createModule from 'redux-modules';
 import { fromJS, List } from 'immutable';
 
-export default createModule(
-  'todos',
-  [
+export default createModule({
+  name: 'todos',
+  initialState: List(),
+  transformations: [
     {
       action: 'CREATE_TODO',
       payloadTypes: {
@@ -79,8 +80,8 @@ export default createModule(
       },
     },
   ],
-  List()
-);
+});
+
 ```
 
 Equivalent reducer with module/duck paradigm:

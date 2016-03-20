@@ -13,10 +13,10 @@ const _generateReduxComponents = initialState => transformations => {
   return generated;
 };
 
-export const createModule = (modulePrefix, transformations, initialState = Map()) => {
+export const createModule = ({name, transformations, initialState = Map()}) => {
   const generated = compose(
     _generateReduxComponents(initialState),
-    formatConstants(modulePrefix)
+    formatConstants(name)
   )(transformations);
 
   return generated;

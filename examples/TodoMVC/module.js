@@ -2,9 +2,10 @@ import createModule from '../../src/index';
 import {PropTypes} from 'react';
 import { fromJS, List } from 'immutable';
 
-export default createModule(
-  'todos',
-  [
+export default createModule({
+  name: 'todos',
+  initialState: List(),
+  transformations: [
     {
       action: 'CREATE_TODO',
       payloadTypes: {
@@ -42,5 +43,4 @@ export default createModule(
       },
     },
   ],
-  List()
-);
+});
