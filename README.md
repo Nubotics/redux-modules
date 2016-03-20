@@ -19,12 +19,10 @@ const {actions, reducer} = createModule(actionPrefix, transformations, initialSt
 ### Transformation Object
 ```js
 {
-  action: 'ADD_TODO_ITEM',
+  action: 'CREATE_TODO',
   payloadTypes: {
-    'todo': PropTypes.shapeOf({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string,
-      completed: PropTypes.bool,
+    todo: PropTypes.shape({
+      description: PropTypes.string.isRequired,
     }).isRequired,
   },
   reducer: (state, {todo}) => state.set(todo.id, todo),
@@ -38,65 +36,80 @@ const {actions, reducer} = createModule(actionPrefix, transformations, initialSt
 ## Example
 ```js
 import {PropTypes} from 'react';
-import {createModule} from 'redux-modules';
+import createModule from 'redux-modules';
+import { fromJS, List } from 'immutable';
 
 export default createModule(
   'todos',
   [
     {
-      action: 'ADD_TODO_ITEM',
+      action: 'CREATE_TODO',
       payloadTypes: {
-        'todo': PropTypes.shape({
-          id: PropTypes.number.isRequired,
-          name: PropTypes.string,
+        todo: PropTypes.shape({
+          description: PropTypes.string.isRequired,
+        }),
+      },
+      reducer: (state, {payload: { todo }}) => {
+        return state.push(fromJS(todo));
+      },
+    },
+    {
+      action: 'DESTROY_TODO',
+      payloadTypes: {
+        index: PropTypes.number.isRequired,
+      },
+      reducer: (state, {payload: { index }}) => {
+        return state.delete(index);
+      },
+    },
+    {
+      action: 'UPDATE_TODO',
+      payloadTypes: {
+        index: PropTypes.number.isRequired,
+        todo: PropTypes.shape({
+          description: PropTypes.string,
           completed: PropTypes.bool,
-        }).isRequired,
+        }),
       },
-      reducer: (state, {payload: {todo}}) => state.set(todo.id, todo),
-    },
-    {
-      action: 'REMOVE_TODO_ITEM',
-      payloadTypes: {
-        'id': PropTypes.number.isRequired,
+      reducer: (state, {payload: { index, todo: updates }}) => {
+        return state.update(
+          index,
+          todo => todo.merge(fromJS(updates))
+        );
       },
-      reducer: (state, {payload: {id}}) => state.remove(id),
     },
-    {
-      action: 'COMPLETE_TODO_ITEM',
-      payloadTypes: {
-        'id': PropTypes.number.isRequired,
-      },
-      reducer: (state, {payload: {id}}) =>
-        state.update(id, todo => todo.set('complete', true)),
-    },
-  ]
+  ],
+  List()
 );
 ```
 
 Equivalent reducer with module/duck paradigm:
 ```js
 import { createAction, handleActions } from 'redux-actions';
-import { Map } from 'immutable';
+import { List } from 'immutable';
 
-const ADD_TODO_ITEM = 'todos/ADD_TODO_ITEM';
-const REMOVE_TODO_ITEM = 'todos/REMOVE_TODO_ITEM';
-const COMPLETE_TODO_ITEM = 'todos/COMPLETE_TODO_ITEM';
+const CREATE_TODO = 'todos/CREATE_TODO';
+const DESTROY_TODO = 'todos/DESTROY_TODO';
+const UPDATE_TODO = 'todos/UPDATE_TODO';
 
-const addTodoItem = createAction(ADD_TODO_ITEM);
-const removeTodoItem = createAction(REMOVE_TODO_ITEM);
-const completeTodoItem = createAction(COMPLETE_TODO_ITEM);
+const createTodo = createAction(CREATE_TODO);
+const removeTodoItem = createAction(DESTROY_TODO);
+const completeTodoItem = createAction(UPDATE_TODO);
 
 export const reducer = handleActions(
   {
-    [ADD_TODO_ITEM]: (state, {payload: {todo}}) => state.set(todo.id, todo),
-    [REMOVE_TODO_ITEM]: (state, {payload: {id}}) => state.remove(id),
-    [COMPLETE_TODO_ITEM]: (state, {payload: {id}}) => state.update(id, todo => todo.set('complete', true)),
+    [CREATE_TODO]: (state, {payload: {todo}}) => state.push(todo),
+    [DESTROY_TODO]: (state, {payload: {index}}) => state.delete(index),
+    [UPDATE_TODO]: (state, {payload: {index}}) => state.update(
+      index,
+      todo => todo.merge(fromJS(updates))
+    );
   },
-  Map()
+  List()
 );
 
 export const actions = {
-  addTodoItem,
+  createTodo,
   removeTodoItem,
   completeTodoItem,
 };
