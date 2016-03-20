@@ -9,10 +9,14 @@ A library for defining clear, boilerplate free Redux reducers with typechecked a
 
 ## Usage
 ```js
-const {actions, reducer} = createModule(actionPrefix, transformations, initialState);
+const {actions, reducer} = createModule({
+  name: 'users',
+  initialState: {},
+  transformations: [ /* array of transformation objects */ ],
+});
 ```
 ### Arguments:
-- **actionPrefix**: Prefix for action type
+- **name**: Name of module, used to prefix action types.
 - **transformations**: Array of `transformation` objects.
 - **initialState**: Initial store state. Defaults to immutable Map if undefined
 
