@@ -31,8 +31,8 @@ export default createModule({
       payloadTypes: {
         index: PropTypes.number.isRequired,
         todo: PropTypes.shape({
-          description: PropTypes.string,
-          completed: PropTypes.bool,
+          description: PropTypes.string.isRequired,
+          checked: PropTypes.bool,
         }),
       },
       reducer: (state, {payload: { index, todo: updates }}) => {
