@@ -1,3 +1,12 @@
+/*
+  state = [
+    {
+      description,
+      index
+    }
+  ]
+ */
+
 import createModule from '../../src/index';
 import {PropTypes} from 'react';
 import { fromJS, List } from 'immutable';
@@ -31,7 +40,7 @@ export default createModule({
       payloadTypes: {
         index: PropTypes.number.isRequired,
         todo: PropTypes.shape({
-          description: PropTypes.string.isRequired,
+          description: PropTypes.string,
           checked: PropTypes.bool,
         }),
       },
