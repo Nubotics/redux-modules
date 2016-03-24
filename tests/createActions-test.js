@@ -9,7 +9,6 @@ const mockTransforms = [
 describe('createActions', () => {
   describe('generated hash', () => {
     const generatedActions = createActions(mockTransforms);
-    console.log(generatedActions);
     const firstKey = Object.keys(generatedActions)[0];
 
     it('should return a hash', () => {
