@@ -2,13 +2,12 @@
 
 A library for defining clear, boilerplate free Redux reducers with typechecked action payloads. Based on the [redux duck](https://github.com/erikras/ducks-modular-redux) paradigm proposed by [erikras](https://github.com/erikras/).
 
-## Advantages
-- Generate new actions quickly and easily
+### Generate new actions quickly and easily
 ![Example](/examples/screenshots/duckvmodule.png?raw=true "redux-modules")
-- Proptype checking for your action payloads.
+### PropType style type checking for your action payloads
 ![Example](/examples/screenshots/payloadTypes.png?raw=true "redux-modules")
-- Automatic action name convention (camel cased)
-- Auto prefixed action types
+- Predictable (camel cased) action names based on action constants
+- Prefixes all your action constants with the module name
 
 ## Usage
 ```js
