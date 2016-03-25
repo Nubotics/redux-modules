@@ -20,7 +20,7 @@ describe('formatConstants', () => {
 
   it('should append modulePrefix to every formatted constant', () => {
     generatedModule.forEach(module => {
-      (module.formattedConstant.includes(modulePrefix)).should.equal(true);
+      (module.formattedConstant.indexOf(modulePrefix) > -1).should.equal(true);
     });
   });
 });
