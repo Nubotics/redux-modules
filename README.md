@@ -3,9 +3,9 @@
 A library for defining clear, boilerplate free Redux reducers with typechecked action payloads. Based on the [redux duck](https://github.com/erikras/ducks-modular-redux) paradigm proposed by [erikras](https://github.com/erikras/).
 
 ### Generate new actions quickly and easily
-![Example](/examples/screenshots/duckvmodule.png?raw=true "redux-modules")
+![Example](https://raw.githubusercontent.com/mboperator/redux-modules/master/examples/screenshots/duckvmodule.png "redux-modules")
 ### PropType style type checking for your action payloads
-![Example](/examples/screenshots/payloadTypes.png?raw=true "redux-modules")
+![Example](https://raw.githubusercontent.com/mboperator/redux-modules/master/examples/screenshots/payloadTypes.png "redux-modules")
 - Predictable (camel cased) action names based on action constants
 - Prefixes all your action constants with the module name
 
