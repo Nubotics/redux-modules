@@ -3,17 +3,14 @@ import { curry, keys, forEach, compose } from 'ramda';
 const defaultPropCheck = () => { return {}; };
 
 export const propCheckedPayloadCreator = curry(
-  (name, payloadTypes, payload) => {
+  ({actionName, payloadTypes, onError}, payload) => {
 
     const _propCheck = type => {
       const propChecker = payloadTypes[type] || defaultPropCheck;
-      const typeError = propChecker(payload, type, name, 'prop') || {};
+      const typeError = propChecker(payload, type, actionName, 'prop') || {};
       const { message } = typeError;
 
-      message && console.error(
-        'Warning: Failed payloadType:',
-        message
-      );
+      message && onError(message);
     }
 
     compose(

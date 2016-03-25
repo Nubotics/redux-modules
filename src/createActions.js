@@ -3,17 +3,24 @@ import { reduce } from 'ramda';
 import camelize from 'camel-case';
 import payloadPropchecker from './payloadPropchecker';
 
+const onError = err => {
+  console.error(
+    'Warning: Failed payloadType:',
+    err
+  );
+}
+
 const _generateActions = (generatedActions, transformation) => {
   const {
     action,
     payloadTypes = {},
-    formattedConstant,
+    formattedConstant: actionName,
   } = transformation;
   const camelizedActionName = camelize(action);
 
   generatedActions[camelizedActionName] = createAction(
-    formattedConstant,
-    payloadPropchecker(formattedConstant, payloadTypes)
+    actionName,
+    payloadPropchecker({actionName, payloadTypes, onError})
   );
 
   return generatedActions;
