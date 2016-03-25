@@ -1,6 +1,6 @@
 {
   "name": "redux-modules",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A library for defining clear, boilerplate free Redux reducers.",
   "main": "lib/index.js",
   "scripts": {
