@@ -1,51 +1,13 @@
 # redux-modules [![Circle CI](https://circleci.com/gh/mboperator/redux-modules/tree/master.svg?style=svg)](https://circleci.com/gh/mboperator/redux-modules/tree/master)
 
-A library for defining clear, boilerplate free Redux reducers with typechecked action payloads. Based on the [redux duck](https://github.com/erikras/ducks-modular-redux) paradigm proposed by [erikras](https://github.com/erikras/).
+A library for defining clear, boilerplate free [Redux modules](https://github.com/erikras/ducks-modular-redux) with typechecked action payloads.
 
-### Generate new actions quickly and easily
-![Example](https://raw.githubusercontent.com/mboperator/redux-modules/master/examples/screenshots/duckvmodule.png "redux-modules")
-### PropType style type checking for your action payloads
-![Example](https://raw.githubusercontent.com/mboperator/redux-modules/master/examples/screenshots/payloadTypes.png "redux-modules")
-- Predictable (camel cased) action names based on action constants
-- Prefixes all your action constants with the module name
-
-## Usage
-```js
-const {actions, reducer} = createModule({
-  name: 'users',
-  initialState: {},
-  transformations: [ /* array of transformation objects */ ],
-});
-```
-### Arguments:
-- **name**: Name of module, used to prefix action types.
-- **transformations**: Array of `transformation` objects.
-- **initialState**: Initial store state. Defaults to immutable Map if undefined
-
-### Transformation Object
-```js
-{
-  action: 'CREATE_TODO',
-  payloadTypes: {
-    todo: PropTypes.shape({
-      description: PropTypes.string.isRequired,
-    }).isRequired,
-  },
-  reducer: (state, {todo}) => state.set(todo.id, todo),
-},
-```
-##### Attributes:
-- **action**: Action constant
-- **payloadTypes**: Like React PropTypes, but for your action payload.
-- **reducer**: State transformation that corresponds to the action
-
-## Example
 ```js
 import {PropTypes} from 'react';
 import createModule from 'redux-modules';
 import { fromJS, List } from 'immutable';
 
-export default createModule({
+const { action, reducer } = createModule({
   name: 'todos',
   initialState: List(),
   transformations: [
@@ -88,7 +50,47 @@ export default createModule({
   ],
 });
 
+export default reducer;
+
 ```
+
+### Prop checking for actions
+![Example](https://raw.githubusercontent.com/mboperator/redux-modules/master/examples/screenshots/payloadTypes.png "redux-modules")
+- Predictable (camel cased) action names based on action constants
+- Prefixes all your action constants with the module name
+
+## Usage
+```js
+const {actions, reducer} = createModule({
+  name: 'users',
+  initialState: {},
+  transformations: [ /* array of transformation objects */ ],
+});
+```
+### Arguments:
+- **name**: Name of module, used to prefix action types.
+- **transformations**: Array of `transformation` objects.
+- **initialState**: Initial store state. Defaults to immutable Map if undefined
+
+### Transformation Object
+```js
+{
+  action: 'CREATE_TODO',
+  payloadTypes: {
+    todo: PropTypes.shape({
+      description: PropTypes.string.isRequired,
+    }).isRequired,
+  },
+  reducer: (state, {todo}) => state.set(todo.id, todo),
+},
+```
+##### Attributes:
+- **action**: Action constant
+- **payloadTypes**: Like React PropTypes, but for your action payload.
+- **reducer**: State transformation that corresponds to the action
+
+## Example
+
 
 Equivalent reducer with module/duck paradigm:
 ```js
