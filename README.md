@@ -7,7 +7,7 @@ import {PropTypes} from 'react';
 import createModule from 'redux-modules';
 import { fromJS, List } from 'immutable';
 
-const { action, reducer } = createModule({
+const { actions, reducer } = createModule({
   name: 'todos',
   initialState: List(),
   transformations: [
