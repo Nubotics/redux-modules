@@ -7,7 +7,7 @@ import {PropTypes} from 'react';
 import createModule from 'redux-modules';
 import { fromJS, List } from 'immutable';
 
-const { actions, reducer } = createModule({
+const { actions, reducer, constants } = createModule({
   name: 'todos',
   initialState: List(),
   transformations: [
@@ -61,7 +61,7 @@ export default reducer;
 
 ## Usage
 ```js
-const {actions, reducer} = createModule({
+const { actions, reducer, constants } = createModule({
   name: 'users',
   initialState: {},
   transformations: [ /* array of transformation objects */ ],
@@ -102,8 +102,14 @@ const DESTROY_TODO = 'todos/DESTROY_TODO';
 const UPDATE_TODO = 'todos/UPDATE_TODO';
 
 const createTodo = createAction(CREATE_TODO);
-const removeTodoItem = createAction(DESTROY_TODO);
-const completeTodoItem = createAction(UPDATE_TODO);
+const destroyTodo = createAction(DESTROY_TODO);
+const updateTodo = createAction(UPDATE_TODO);
+
+export const actions = {
+  createTodo,
+  destroyTodo,
+  updateTodo,
+};
 
 export const reducer = handleActions(
   {
@@ -117,9 +123,10 @@ export const reducer = handleActions(
   List()
 );
 
-export const actions = {
-  createTodo,
-  removeTodoItem,
-  completeTodoItem,
+export const constants = {
+  createTodo: CREATE_TODO,
+  destroyTodo: DESTROY_TODO,
+  updateTodo: UPDATE_TODO,
 };
+
 ```
