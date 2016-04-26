@@ -75,6 +75,6 @@ const mapDispatch = dispatch => {
     updateTodo: (index, todo) =>
       dispatch(actions.updateTodo({index, todo})),
   };
-}
+};
 
 export default connect(mapState, mapDispatch)(TodoList);
