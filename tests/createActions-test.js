@@ -41,7 +41,7 @@ describe('createActions', () => {
     });
 
     it('should handle empty payloads', () => {
-      const nullTest = actionToTest(null);
+      const nullTest = actionToTest();
       expect(nullTest.payload).to.not.exist;
     });
 
