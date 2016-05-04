@@ -5,11 +5,13 @@ import createConstants from './createConstants';
 import formatConstants from './formatConstants';
 import { Map } from 'immutable';
 
-const _generateReduxComponents = initialState => transformations => {
+const _generateReduxComponents = (name, initialState) => transformations => {
   const generated = {
+    name,
     actions: createActions(transformations),
     reducer: createReducer(initialState, transformations),
     constants: createConstants(transformations),
+
   };
 
   return generated;
@@ -17,7 +19,7 @@ const _generateReduxComponents = initialState => transformations => {
 
 export const createModule = ({name, transformations, initialState = Map()}) => {
   const generated = compose(
-    _generateReduxComponents(initialState),
+    _generateReduxComponents(name, initialState),
     formatConstants(name)
   )(transformations);
 

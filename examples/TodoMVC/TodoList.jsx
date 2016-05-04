@@ -4,6 +4,7 @@ import { List } from 'immutable';
 import { connect } from 'react-redux';
 
 import todoModule from './module';
+import { connectModule } from '../../src/index';
 const { actions } = todoModule;
 
 // TodoList View
@@ -34,7 +35,7 @@ class TodoList extends React.Component {
   };
 
   render() {
-    const { todos = [], ... actions } = this.props;
+    const { todos = [], actions } = this.props;
     return (
       <div>
         <h1>Todo!</h1>
@@ -48,7 +49,9 @@ class TodoList extends React.Component {
             value='Create'
             onClick={() => {
               actions.createTodo({
-                description: findDOMNode(this.refs.description).value,
+                todo: {
+                  description: findDOMNode(this.refs.description).value,
+                }
               })
             }}
           />
@@ -68,13 +71,5 @@ const mapState = state => {
   }
 };
 
-const mapDispatch = dispatch => {
-  return {
-    createTodo: todo => dispatch(actions.createTodo({todo})),
-    destroyTodo: index => dispatch(actions.destroyTodo({index})),
-    updateTodo: (index, todo) =>
-      dispatch(actions.updateTodo({index, todo})),
-  };
-};
-
-export default connect(mapState, mapDispatch)(TodoList);
+// export default connect(mapState, mapDispatch)(TodoList);
+export default connectModule(mapState, todoModule, TodoList);
