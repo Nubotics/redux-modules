@@ -2,11 +2,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 
-import {
-  ConnectedTodos,
-  ModuleConnectedTodos,
-} from './TodoList';
-
+import ConnectedTodos from './ConnectedTodos';
+import ModuleConnectedTodos from './ModuleConnectedTodos';
 import store from './store';
 
 class TodoApp extends React.Component {

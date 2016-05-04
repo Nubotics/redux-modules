@@ -1,11 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { List } from 'immutable';
-import { connect } from 'react-redux';
-
-import todoModule from './module';
-import { connectModule } from '../../src/index';
-const { actions } = todoModule;
 
 // TodoList View
 const TodoItem = (actions, {id, title, description, checked}, i) =>
@@ -32,7 +27,7 @@ const TodoItem = (actions, {id, title, description, checked}, i) =>
     </aside>
   </li>
 
-class TodoList extends React.Component {
+export default class TodoList extends React.Component {
   static propTypes = {
     todos: React.PropTypes.array.isRequired,
   };
@@ -69,27 +64,3 @@ class TodoList extends React.Component {
     );
   }
 }
-
-const mapState = state => {
-  return {
-    todos: [... state.toJS()],
-  }
-};
-
-const mapDispatch = dispatch => {
-  return {
-    create: ({todo}) =>
-      dispatch(actions.create({todo})),
-    destroy: ({index}) =>
-      dispatch(actions.destroy({index})),
-    update: ({index, todo}) =>
-      dispatch(actions.update({index, todo})),
-  };
-};
-
-const namespaceProps = (state, actions, props) => {
-  return { ... props, todos: { actions, ... state } };
-};
-
-export const ConnectedTodos = connect(mapState, mapDispatch, namespaceProps)(TodoList);
-export const ModuleConnectedTodos = connectModule(mapState, todoModule, TodoList);
