@@ -1,6 +1,6 @@
 import { expect, should } from 'chai';
 import { Map } from 'immutable';
-import createModule from '../src/createModule';
+import createModule from '../../src/createModule';
 should();
 
 const mockTransforms = [

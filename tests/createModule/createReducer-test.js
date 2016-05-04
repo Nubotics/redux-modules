@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiImmutable from 'chai-immutable';
 import { Map, fromJS } from 'immutable';
-import createReducer from '../src/createReducer';
+import createReducer from '../../src/createModule/createReducer';
 
 chai.use(chaiImmutable);
 chai.should();

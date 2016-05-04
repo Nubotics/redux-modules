@@ -8,7 +8,6 @@ import combineNamespacedProps from './combineNamespacedProps';
 function connectModule({namespace = '', actions, selector}, Component) {
   const curriedBind = curry(bindActionCreators);
 
-  console.log(namespace);
   return connect(
     selector,
     curriedBind(actions),

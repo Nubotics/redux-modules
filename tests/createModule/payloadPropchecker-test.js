@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import { expect, should } from 'chai';
 require('mocha-sinon');
 import { Map } from 'immutable';
-import payloadPropchecker from '../src/payloadPropchecker';
+import payloadPropchecker from '../../src/createModule/payloadPropchecker';
 should();
 
 const mockTransforms = [
