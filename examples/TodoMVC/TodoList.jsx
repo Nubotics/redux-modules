@@ -13,17 +13,20 @@ const TodoItem = (actions, {id, title, description, checked}, i) =>
     <div className="checkbox">
       <input
         onChange={e =>
-          actions.updateTodo(i, {checked: e.target.checked})
+          actions.update({
+            index: i,
+            todo: {checked: e.target.checked},
+          })
         }
         type='checkbox'
-        value={checked}
+        checked={checked}
       />
     </div>
     <p>
       {description}
     </p>
     <aside>
-      <button onClick={() => actions.destroyTodo(i)}>
+      <button onClick={() => actions.destroy({index: i})}>
         Delete Todo
       </button>
     </aside>
@@ -35,7 +38,7 @@ class TodoList extends React.Component {
   };
 
   render() {
-    const { todos = [], actions } = this.props;
+    const { todos = [], actions } = this.props.todos;
     return (
       <div>
         <h1>Todo!</h1>
@@ -48,7 +51,7 @@ class TodoList extends React.Component {
             type='button'
             value='Create'
             onClick={() => {
-              actions.createTodo({
+              actions.create({
                 todo: {
                   description: findDOMNode(this.refs.description).value,
                 }
@@ -71,5 +74,20 @@ const mapState = state => {
   }
 };
 
-// export default connect(mapState, mapDispatch)(TodoList);
-export default connectModule(mapState, todoModule, TodoList);
+const mapDispatch = dispatch => {
+  return {
+    create: ({todo}) =>
+      dispatch(actions.create({todo})),
+    destroy: ({index}) =>
+      dispatch(actions.destroy({index})),
+    update: ({index, todo}) =>
+      dispatch(actions.update({index, todo})),
+  };
+};
+
+const namespaceProps = (state, actions) => {
+  return { todos: { actions, ... state } };
+};
+
+export const ConnectedTodos = connect(mapState, mapDispatch, namespaceProps)(TodoList);
+export const ModuleConnectedTodos = connectModule(mapState, todoModule, TodoList);

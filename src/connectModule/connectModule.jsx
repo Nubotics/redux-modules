@@ -5,20 +5,15 @@ import { curry } from 'ramda';
 
 import combineNamespacedProps from './combineNamespacedProps';
 
-function createInterface({namespace = '', actions, selector}, Component) {
-  const Interface = props => {
-    return (
-      <Component {...props} />
-    );
-  };
-
+function connectModule({namespace = '', actions, selector}, Component) {
   const curriedBind = curry(bindActionCreators);
 
+  console.log(namespace);
   return connect(
     selector,
     curriedBind(actions),
     combineNamespacedProps(namespace)
-  )(Interface);
+  )(Component);
 }
 
-export default curry(createInterface);
+export default curry(connectModule);

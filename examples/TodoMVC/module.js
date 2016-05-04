@@ -16,7 +16,7 @@ export default createModule({
   initialState: List(),
   transformations: [
     {
-      action: 'CREATE_TODO',
+      action: 'CREATE',
       payloadTypes: {
         todo: PropTypes.shape({
           description: PropTypes.string.isRequired,
@@ -27,7 +27,7 @@ export default createModule({
       },
     },
     {
-      action: 'DESTROY_TODO',
+      action: 'DESTROY',
       payloadTypes: {
         index: PropTypes.number.isRequired,
       },
@@ -36,7 +36,7 @@ export default createModule({
       },
     },
     {
-      action: 'UPDATE_TODO',
+      action: 'UPDATE',
       payloadTypes: {
         index: PropTypes.number.isRequired,
         todo: PropTypes.shape({

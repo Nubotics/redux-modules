@@ -1,19 +1,19 @@
-import createInterface from './createInterface';
+import _connectModule from './connectModule';
 import { curry } from 'ramda';
 
 export const connectModule = (selector, module, Component) => {
-  const { actions, name } = module;
+  const { actions, name: namespace } = module;
 
-  const Interface = createInterface(
+  const ConnectedComponent = _connectModule(
     {
-      name,
+      namespace,
       actions,
       selector,
     },
     Component
   );
 
-  return Interface;
+  return ConnectedComponent;
 }
 
 export default curry(connectModule);

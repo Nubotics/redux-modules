@@ -11,7 +11,6 @@ const _generateReduxComponents = (name, initialState) => transformations => {
     actions: createActions(transformations),
     reducer: createReducer(initialState, transformations),
     constants: createConstants(transformations),
-
   };
 
   return generated;
