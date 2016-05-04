@@ -14,8 +14,8 @@ class TodoApp extends React.Component {
     return (
       <Provider store={store}>
         <div>
-          <ConnectedTodos />
-          <ModuleConnectedTodos />
+          <ConnectedTodos title="Todos w/ connect" />
+          <ModuleConnectedTodos title="Todos w/ connectModule" />
         </div>
       </Provider>
     );

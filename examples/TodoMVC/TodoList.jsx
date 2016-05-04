@@ -38,10 +38,12 @@ class TodoList extends React.Component {
   };
 
   render() {
-    const { todos = [], actions } = this.props.todos;
+    const { title, todos: todoProps } = this.props;
+    const { todos = [], actions } = todoProps ;
+
     return (
       <div>
-        <h1>Todo!</h1>
+        <h1>{title}</h1>
 
         <div>
           <label>Description</label>
@@ -85,8 +87,8 @@ const mapDispatch = dispatch => {
   };
 };
 
-const namespaceProps = (state, actions) => {
-  return { todos: { actions, ... state } };
+const namespaceProps = (state, actions, props) => {
+  return { ... props, todos: { actions, ... state } };
 };
 
 export const ConnectedTodos = connect(mapState, mapDispatch, namespaceProps)(TodoList);
