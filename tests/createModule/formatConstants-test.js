@@ -1,6 +1,6 @@
 import { expect, should } from 'chai';
 import { Map } from 'immutable';
-import formatConstants from '../src/formatConstants';
+import formatConstants from '../../src/createModule/formatConstants';
 should();
 
 const modulePrefix = 'mock';

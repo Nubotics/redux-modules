@@ -1,10 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { List } from 'immutable';
-import { connect } from 'react-redux';
-
-import todoModule from './module';
-const { actions } = todoModule;
 
 // TodoList View
 const TodoItem = (actions, {id, title, description, checked}, i) =>
@@ -12,32 +8,37 @@ const TodoItem = (actions, {id, title, description, checked}, i) =>
     <div className="checkbox">
       <input
         onChange={e =>
-          actions.updateTodo(i, {checked: e.target.checked})
+          actions.update({
+            index: i,
+            todo: {checked: e.target.checked},
+          })
         }
         type='checkbox'
-        value={checked}
+        checked={checked}
       />
     </div>
     <p>
       {description}
     </p>
     <aside>
-      <button onClick={() => actions.destroyTodo(i)}>
+      <button onClick={() => actions.destroy({index: i})}>
         Delete Todo
       </button>
     </aside>
   </li>
 
-class TodoList extends React.Component {
+export default class TodoList extends React.Component {
   static propTypes = {
     todos: React.PropTypes.array.isRequired,
   };
 
   render() {
-    const { todos = [], ... actions } = this.props;
+    const { title, todos: todoProps } = this.props;
+    const { todos = [], actions } = todoProps ;
+
     return (
       <div>
-        <h1>Todo!</h1>
+        <h1>{title}</h1>
 
         <div>
           <label>Description</label>
@@ -47,8 +48,10 @@ class TodoList extends React.Component {
             type='button'
             value='Create'
             onClick={() => {
-              actions.createTodo({
-                description: findDOMNode(this.refs.description).value,
+              actions.create({
+                todo: {
+                  description: findDOMNode(this.refs.description).value,
+                }
               })
             }}
           />
@@ -61,20 +64,3 @@ class TodoList extends React.Component {
     );
   }
 }
-
-const mapState = state => {
-  return {
-    todos: [... state.toJS()],
-  }
-};
-
-const mapDispatch = dispatch => {
-  return {
-    createTodo: todo => dispatch(actions.createTodo({todo})),
-    destroyTodo: index => dispatch(actions.destroyTodo({index})),
-    updateTodo: (index, todo) =>
-      dispatch(actions.updateTodo({index, todo})),
-  };
-};
-
-export default connect(mapState, mapDispatch)(TodoList);

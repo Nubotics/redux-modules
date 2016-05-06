@@ -1,5 +1,5 @@
 import { expect, should } from 'chai';
-import createConstants from '../src/createConstants';
+import createConstants from '../../src/createModule/createConstants';
 should();
 
 const mockTransforms = [

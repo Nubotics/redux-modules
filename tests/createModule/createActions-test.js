@@ -1,5 +1,5 @@
 import { expect, should } from 'chai';
-import createActions from '../src/createActions';
+import createActions from '../../src/createModule/createActions';
 should();
 const mockTransforms = [
   { formattedConstant: 'mock/MOCK_ONE', action: 'MOCK_ONE' },
