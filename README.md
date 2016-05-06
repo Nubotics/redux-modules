@@ -1,49 +1,48 @@
 # redux-modules [![Circle CI](https://circleci.com/gh/mboperator/redux-modules/tree/master.svg?style=svg)](https://circleci.com/gh/mboperator/redux-modules/tree/master)
 
-A library for defining clear, boilerplate free [Redux modules](https://github.com/erikras/ducks-modular-redux) with typechecked action payloads.
+A library that takes the [Redux module](https://github.com/erikras/ducks-modular-redux) concept to another level with:
+- an **intuitive** way define actions and state transformations
+- **propType style typechecking** for action payloads
+![Example](https://raw.githubusercontent.com/mboperator/redux-modules/master/examples/screenshots/payloadTypes.png "redux-modules")
+- auto generated, **camelCased** action creators
+- auto prefixed action constants
+- and a decorator to easily drop module capabilities in to your view
 
+## Example
 ```js
-import {PropTypes} from 'react';
+// src/_shared/modules/todos.js
+import { PropTypes } from 'react';
+const { shape, string, number } = PropTypes;
 import createModule from 'redux-modules';
 import { fromJS, List } from 'immutable';
 
-const { actions, reducer, constants } = createModule({
+export const { actions, reducer, constants } = createModule({
   name: 'todos',
   initialState: List(),
   transformations: [
     {
-      action: 'CREATE_TODO',
+      action: 'CREATE',
       payloadTypes: {
-        todo: PropTypes.shape({
-          description: PropTypes.string.isRequired,
+        todo: shape({
+          description: string.isRequired,
         }),
       },
       reducer: (state, {payload: { todo }}) => {
-        return state.push(fromJS(todo));
+        return state.update(
+          'collection',
+          todos => todos.push(fromJS(todo))
+        );
       },
     },
     {
-      action: 'DESTROY_TODO',
+      action: 'DESTROY',
       payloadTypes: {
-        index: PropTypes.number.isRequired,
+        index: number.isRequired,
       },
       reducer: (state, {payload: { index }}) => {
-        return state.delete(index);
-      },
-    },
-    {
-      action: 'UPDATE_TODO',
-      payloadTypes: {
-        index: PropTypes.number.isRequired,
-        todo: PropTypes.shape({
-          description: PropTypes.string,
-          completed: PropTypes.bool,
-        }),
-      },
-      reducer: (state, {payload: { index, todo: updates }}) => {
         return state.update(
-          index,
-          todo => todo.merge(fromJS(updates))
+          'collection',
+          todos => todos.delete(index)
         );
       },
     },
@@ -52,14 +51,24 @@ const { actions, reducer, constants } = createModule({
 
 export default reducer;
 
+// src/views/events/List.jsx
+@connectModule(state => state.get('todos').toJS(), todoModule)
+export default class TodoList extends Component {
+  static propTypes = {
+    todos: shape({
+      // exposed by selector
+      collection: array,
+      // actions from module w/ bound dispatch
+      actions: shape({
+        create: func,
+        destroy: func,
+      }),
+    }),
+  };
 ```
+# Documentation
 
-### Prop checking for actions
-![Example](https://raw.githubusercontent.com/mboperator/redux-modules/master/examples/screenshots/payloadTypes.png "redux-modules")
-- Predictable (camel cased) action names based on action constants
-- Prefixes all your action constants with the module name
-
-## Usage
+### createModule({ name, initialState, transformations })
 ```js
 const { actions, reducer, constants } = createModule({
   name: 'users',
@@ -67,10 +76,10 @@ const { actions, reducer, constants } = createModule({
   transformations: [ /* array of transformation objects */ ],
 });
 ```
-### Arguments:
-- **name**: Name of module, used to prefix action types.
-- **transformations**: Array of `transformation` objects.
-- **initialState**: Initial store state. Defaults to immutable Map if undefined
+### parameters:
+- name (_string_): Name of module, used to prefix action types.
+- transformations (_array_): Array of `transformation` objects.
+- initialState (_any_): Initial store state. Defaults to immutable Map if undefined
 
 ### Transformation Object
 ```js
@@ -84,49 +93,16 @@ const { actions, reducer, constants } = createModule({
   reducer: (state, {todo}) => state.set(todo.id, todo),
 },
 ```
-##### Attributes:
-- **action**: Action constant
-- **payloadTypes**: Like React PropTypes, but for your action payload.
-- **reducer**: State transformation that corresponds to the action
+#### Attributes:
+- action (_string_): Action constant
+- payloadTypes (_object_): Like React PropTypes, but for your action payload.
+- reducer (_function(state, action)_): State transformation that corresponds to the action
 
-## Example
-
-
-Equivalent reducer with module/duck paradigm:
+## connectModule(selector, module, Component)
 ```js
-import { createAction, handleActions } from 'redux-actions';
-import { List } from 'immutable';
-
-const CREATE_TODO = 'todos/CREATE_TODO';
-const DESTROY_TODO = 'todos/DESTROY_TODO';
-const UPDATE_TODO = 'todos/UPDATE_TODO';
-
-const createTodo = createAction(CREATE_TODO);
-const destroyTodo = createAction(DESTROY_TODO);
-const updateTodo = createAction(UPDATE_TODO);
-
-export const actions = {
-  createTodo,
-  destroyTodo,
-  updateTodo,
-};
-
-export const reducer = handleActions(
-  {
-    [CREATE_TODO]: (state, {payload: {todo}}) => state.push(todo),
-    [DESTROY_TODO]: (state, {payload: {index}}) => state.delete(index),
-    [UPDATE_TODO]: (state, {payload: {index}}) => state.update(
-      index,
-      todo => todo.merge(fromJS(updates))
-    );
-  },
-  List()
-);
-
-export const constants = {
-  createTodo: CREATE_TODO,
-  destroyTodo: DESTROY_TODO,
-  updateTodo: UPDATE_TODO,
-};
-
+@connectModule(state => state.get('todos').toJS(), todoModule)
 ```
+### Parameters
+- selector _(function)_: A function that receives state, props, and returns an object
+- module _(object)_: A redux module object
+- Component _(function or class)_: A React Component
