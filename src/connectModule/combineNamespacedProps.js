@@ -1,13 +1,13 @@
 const combineNamespacedProps =
   (ns = '') => (mapStateProps, mapDispatchProps, props) => {
     const generatedProps = {
-      ...mapStateProps,
-      actions: { ...mapDispatchProps },
+      ... mapStateProps,
+      actions: { ... mapDispatchProps },
     };
 
     return ns
-      ? { [ns]: { ...generatedProps }, ...props }
-      : { ...generatedProps, ...props };
+      ? { [ns]: { ... generatedProps }, ... props }
+      : { ... generatedProps, ... props };
   };
 
 export default combineNamespacedProps;
