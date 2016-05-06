@@ -23,9 +23,11 @@
     "camel-case": "^1.2.2",
     "immutable": "^3.7.6",
     "ramda": "^0.19.1",
-    "react-redux": "^4.4.1",
-    "redux": "^3.3.1",
     "redux-actions": "^0.9.1"
+  },
+  "peerDependencies": {
+    "react-redux": "^4.4.1",
+    "redux": "^3.3.1"
   },
   "devDependencies": {
     "app-root-path": "^1.0.0",
